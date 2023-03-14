@@ -11,7 +11,6 @@ We are passionate about delivering high quality web & chat applications with a s
 - Interested in working with us? – https://join.com/companies/verkstedt
 
 
----
 
-verkstedt.com/imprint/<br>
-verkstedt.com/privacy-policy/
+*verkstedt.com/imprint/*<br>
+*verkstedt.com/privacy-policy/*
