@@ -6,11 +6,13 @@ We are passionate about delivering high quality web & chat applications with a s
 
 **Nice to see you! 😊**
 
+### Want to learn more?
+
 - We're happy to help you with your complex IT project! – https://verkstedt.com/contact/#alex
-- Wanna learn more about our team? – https://verkstedt.com/about-us/
+- More about our team? – https://verkstedt.com/about-us/
 - Interested in working with us? – https://join.com/companies/verkstedt
 
 
 
-*verkstedt.com/imprint/*<br>
-*verkstedt.com/privacy-policy/*
+<small>*verkstedt.com/imprint/*<br>
+*verkstedt.com/privacy-policy/*</small>
