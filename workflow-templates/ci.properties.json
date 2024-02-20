@@ -1,0 +1,12 @@
+{
+  "name": "CI",
+  "description": "Detect interesting npm scripts and run them. You might need to rename some of your npm scripts! See https://github.com/verkstedt/actions#ci",
+  "iconName": "ci",
+  "categories": [
+    "Continuous-integration",
+    "code-quality",
+    "testing",
+    "JavaScript"
+  ],
+  "filePatterms": ["package.json$"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Chromatic",
+  "description": "Build StoryBook and publish to Chromatic. Requires some secrets and vars! See https://github.com/verkstedt/actions#chromatic",
+  "iconName": "chromatic",
+  "categories": ["Deployment", "code-quality", "testing", "JavaScript"],
+  "filePatterms": ["package.json$", ".storybook"]
+}

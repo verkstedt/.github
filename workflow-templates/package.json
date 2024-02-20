@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@verkstedt/eslint-config-verkstedt": "^9.3.1",
+    "prettier": "^3.2.5"
+  }
+}

@@ -1,0 +1,43 @@
+name: 'Chromatic'
+
+# Build StoryBook and publish to Chromatic.
+#
+# Requires some secrets and/or vars!
+# See https://github.com/verkstedt/actions#chromatic
+#
+# This file has been created from
+# https://github.com/verkstedt/.github/blob/main/workflow-templates/chromatic.yaml
+#
+# IF YOU MODIFY IT IN ANY WAY, DESCRIBE IT IN THE COMMENT HERE
+# to make updating in the future easier.
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chromatic:
+    name: 'Chromatic'
+    uses: verkstedt/actions/.github/workflows/chromatic.yaml@v1
+    secrets: inherit
+    with:
+      working-directory: .
+
+  notify-main-branch-failure:
+    name: Notify about failure on main branch
+    needs:
+      - chromatic
+    if: failure() && github.ref == 'refs/heads/main'
+    uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
+    secrets: inherit
