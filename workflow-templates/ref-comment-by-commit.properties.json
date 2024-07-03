@@ -1,0 +1,6 @@
+{
+  "name": "Reference comments by commit",
+  "description": "Make it possible to reference a GH comment in a commit message.",
+  "iconName": "ref-comment-by-commit",
+  "categories": ["Automation"]
+}
