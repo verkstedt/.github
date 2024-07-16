@@ -1,0 +1,57 @@
+name: License Check
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: 'The working directory where package.json is located'
+        required: true
+        default: '.'
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set working directory
+      run: cd ${{ inputs.working-directory }}
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install license-checker
+      run: npm install -g license-checker
+
+    - name: Run license-checker
+      run: |
+        license-checker --json > licenses.json
+
+    - name: Check licenses
+      run: |
+        ALLOWED_LICENSES="0BSD;AAL;Apache-2.0;BSD-2-Clause;BSD-2-Clause-FreeBSD;BSD-2-Clause-NetBSD;BSD-3-Clause;BSD-3-Clause-Clear;BSL-1.0;CC0-1.0;CECILL-C;CECILL-2.1;CECILL-B;ECL-2.0;Entessa;EPL-2.0;EuPL-1.1;EuPL-1.2;EUPL-1.1;EUPL-1.2;HPND;ISC;MIT;MIT-0;MIT-advertising;MIT-CMU;MIT-enna;MIT-feh;NCSA;OML;OSD-3-Clause;PostgreSQL;Python-2.0;TCL;UoI-NCSA;Unicode-DFS-2015;Unicode-DFS-2016;Unlicense;UPF-8;Vim;WTFPL;X11;Xnet;Zlib;ZPL-2.0"
+        ALLOWED_LICENSES_JSON=$(echo "$ALLOWED_LICENSES" | jq -R 'split(";")')
+
+        DISALLOWED_LICENSES=$(jq -r --argjson allowed "$ALLOWED_LICENSES_JSON" '
+          def in_allowed: . as $license | $allowed | index($license);
+          to_entries[]
+          | select((.value.licenses | if type=="array" then .[] else . end) | in_allowed | not)
+          | "\(.key): \(.value.licenses)"
+        ' licenses.json)
+
+        if [ -n "$DISALLOWED_LICENSES" ]; then
+          echo "::warning::Disallowed licenses found. See the list below:"
+          echo "$DISALLOWED_LICENSES"
+          echo "Next steps for developers:"
+          echo "1. Identify the packages listed above that have disallowed licenses."
+          echo "2. Consult with Alex or Georgios to determine if the disallowed license can be added to the allowed list."
+          echo "3. Look for alternative packages with allowed licenses."
+          echo "4. If alternatives are not available, discuss with the team about the potential risk and decide whether to request an exemption or remove the package."
+          exit 1
+        else
+          echo "No disallowed licenses found."
+        fi
