@@ -30,6 +30,7 @@ jobs:
   ci:
     name: 'CI'
     uses: verkstedt/actions/.github/workflows/ci.yaml@v1
+    secrets: inherit
     with:
       working-directory: .
 
