@@ -57,6 +57,6 @@ jobs:
       - ci
       # If you add any new jobs, also add them here:
       #- lint-something-else
-    if: failure() && github.ref == 'refs/heads/main'
+    if: failure() && github.head_ref == 'main'
     uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
     secrets: inherit
