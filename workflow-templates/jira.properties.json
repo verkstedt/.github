@@ -1,0 +1,6 @@
+{
+  "name": "Jira integration",
+  "description": "Move Jira issues when PRs are created, published or merged. Requires some secrets and vars! See https://github.com/verkstedt/actions#jira",
+  "iconName": "jira",
+  "categories": ["Automation"]
+}
