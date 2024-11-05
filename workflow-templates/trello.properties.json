@@ -1,6 +1,0 @@
-{
-  "name": "Trello integration",
-  "description": "Move Trello cards when PRs are created, published or merged. Requires some secrets and vars! See https://github.com/verkstedt/actions#trello",
-  "iconName": "trello",
-  "categories": ["Automation"]
-}
