@@ -12,7 +12,7 @@ name: 'Jira integration'
 # to make updating in the future easier.
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - edited
