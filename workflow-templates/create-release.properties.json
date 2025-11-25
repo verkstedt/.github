@@ -1,0 +1,6 @@
+{
+  "name": "Create release",
+  "description": "Create GitHub releases from tags. Requires some secrets and vars! See https://github.com/verkstedt/actions#create-release",
+  "iconName": "create-release",
+  "categories": ["Automation"]
+}

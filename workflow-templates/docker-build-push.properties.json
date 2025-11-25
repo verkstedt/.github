@@ -1,0 +1,6 @@
+{
+  "name": "Docker build & push",
+  "description": "Build and push Docker images to a registry. Requires some secrets and vars! See https://github.com/verkstedt/actions#docker-build-and-push",
+  "iconName": "docker-build-push",
+  "categories": ["Deployment"]
+}

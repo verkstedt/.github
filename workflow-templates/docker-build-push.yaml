@@ -1,0 +1,81 @@
+name: 'Docker Build and Push'
+
+# Build a docker image and push it to selected registries
+#
+# Requires some secrets and/or vars!
+# See https://github.com/verkstedt/actions#docker-build-and-push
+#
+# This file has been created from
+# https://github.com/verkstedt/.github/blob/main/workflow-templates/docker-build-push.yaml
+#
+# IF YOU MODIFY IT IN ANY WAY, DESCRIBE IT IN THE COMMENT HERE
+# to make updating in the future easier.
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v[0-9]*.[0-9]*.[0-9]*'
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry–run'
+        type: boolean
+        default: false
+      platforms:
+        description: 'Platforms to build for, e.g. linux/amd64,linux/arm64'
+        required: true
+        default: 'linux/amd64'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.sha }}
+  # When we push to a branch and tag at the same time, workflow will
+  # trigger twice.
+  # Different approach would be to remove tags from `on`, but want to
+  # keep it in in case some projects create version tags outside of main
+  # branch.
+  cancel-in-progress: true
+
+jobs:
+  build-push:
+    name: 'Build and push Docker image'
+    uses: verkstedt/actions/.github/workflows/docker-build-push.yaml@v1
+    secrets:
+      BUILD_SECRETS: ${{ secrets.BUILD_SECRETS }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+    with:
+      dry-run: ${{ inputs.dry-run == 'true' }}
+      # Note: Input for workflow_dispatch has the same default value,
+      # but this workflow can also be triggered by other events.
+      platforms: ${{ inputs.platforms || 'linux/amd64' }}
+      build-args: ${{ vars.BUILD_ARGS }}
+      slack-channel-id: ${{ vars.DOCKER_SLACK_NOTIFY == 'true' && vars.SLACK_CHANNEL_ID }}
+
+      # GitHub Container Registry
+      github: ${{ vars.DOCKER_GITHUB_ENABLE == 'true' }}
+      github-image-name: ${{ vars.DOCKER_GITHUB_IMAGE_NAME }}
+
+      # Google Artifact Registry
+      google: ${{ vars.DOCKER_GOOGLE_ENABLE == 'true' }}
+      google-project: ${{ vars.DOCKER_GOOGLE_PROJECT }}
+      google-registry-location: ${{ vars.DOCKER_GOOGLE_REGISTRY_LOCATION }}
+      google-repository: ${{ vars.DOCKER_GOOGLE_REPOSITORY }}
+      google-workload-identity-provider: ${{ vars.DOCKER_GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+      google-service-account: ${{ vars.DOCKER_GOOGLE_SERVICE_ACCOUNT }}
+      google-image-name: ${{ vars.DOCKER_GOOGLE_IMAGE_NAME }}
+
+      # Amazon Elastic Container Registry
+      amazon: ${{ vars.DOCKER_AMAZON_ENABLE == 'true' }}
+      amazon-aws-account-id: ${{ vars.DOCKER_AMAZON_AWS_ACCOUNT_ID }}
+      amazon-aws-region: ${{ vars.DOCKER_AMAZON_AWS_REGION }}
+      amazon-role-to-assume: ${{ vars.DOCKER_AMAZON_ROLE_TO_ASSUME }}
+      amazon-image-name: ${{ vars.DOCKER_AMAZON_IMAGE_NAME }}
+
+  notify-failure:
+    name: 'Notify about failure'
+    needs:
+      - build-push
+    if: failure() && inputs.dry-run != true
+    uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
+    secrets: inherit
