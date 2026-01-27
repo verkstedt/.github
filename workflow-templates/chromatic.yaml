@@ -23,7 +23,7 @@ on:
       - main
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -38,6 +38,6 @@ jobs:
     name: Notify about failure on main branch
     needs:
       - chromatic
-    if: failure() && github.ref == 'refs/heads/main'
+    if: failure() && ( github.head_ref || github.ref_name ) == 'main'
     uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
     secrets: inherit
