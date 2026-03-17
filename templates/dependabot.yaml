@@ -22,6 +22,36 @@ updates:
     cooldown:
       default-days: 7
 
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "quarterly"
+      time: "12:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "quarterly"
+      time: "12:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "quarterly"
+      time: "12:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
