@@ -1,2 +1,0 @@
-# Make sure dependabot PRs get reviewers assigned
-package-lock.json yarn.lock pnpm-lock.yaml @marek-saji
