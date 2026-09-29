@@ -13,6 +13,8 @@ In addition to using this template, you should also set somebodies as code owner
 package-lock.json                   @YOU
 yarn-lock                           @YOU
 pnpm-lock.yaml                      @YOU
+Cargo.lock                          @YOU
+requirements*.txt                   @YOU
 Dockerfile                          @YOU
 docker-compose.*                    @YOU
 /.devcontainer/devcontainer.json    @YOU
