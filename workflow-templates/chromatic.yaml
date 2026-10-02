@@ -38,6 +38,10 @@ jobs:
     name: Notify about failure on main branch
     needs:
       - chromatic
-    if: failure() && ( github.head_ref || github.ref_name ) == 'main'
+    if: ${{ !cancelled() && !contains(needs.*.result, 'cancelled') && ( github.head_ref || github.ref_name ) == 'main' }}
     uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
+    with:
+      status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
+    permissions:
+      actions: read
     secrets: inherit

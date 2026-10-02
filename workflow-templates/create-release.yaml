@@ -46,6 +46,10 @@ jobs:
     name: 'Notify about failure'
     needs:
       - release
-    if: failure() && inputs.dry-run != true
+    if: ${{ !cancelled() && !contains(needs.*.result, 'cancelled') && inputs.dry-run != true }}
     uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
+    with:
+      status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
+    permissions:
+      actions: read
     secrets: inherit
