@@ -31,6 +31,11 @@ jobs:
     name: 'CI'
     uses: verkstedt/actions/.github/workflows/ci.yaml@v1
     secrets: inherit
+    permissions:
+      actions: read
+      checks: write
+      contents: read
+      packages: read
     with:
       working-directory: .
 
@@ -57,6 +62,10 @@ jobs:
       - ci
       # If you add any new jobs, also add them here:
       #- lint-something-else
-    if: failure() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: ${{ !cancelled() && !contains(needs.*.result, 'cancelled') && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
+    with:
+      status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
+    permissions:
+      actions: read
     secrets: inherit
