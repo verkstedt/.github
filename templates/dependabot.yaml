@@ -13,7 +13,8 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "/**"
     schedule:
       interval: "quarterly"
       time: "12:00"
@@ -23,7 +24,8 @@ updates:
       default-days: 7
 
   - package-ecosystem: "cargo"
-    directory: "/"
+    directories:
+      - "/**"
     schedule:
       interval: "quarterly"
       time: "12:00"
@@ -33,7 +35,8 @@ updates:
       default-days: 7
 
   - package-ecosystem: "pip"
-    directory: "/"
+    directories:
+      - "/**"
     schedule:
       interval: "quarterly"
       time: "12:00"
@@ -43,7 +46,8 @@ updates:
       default-days: 7
 
   - package-ecosystem: "docker"
-    directory: "/"
+    directories:
+      - "/**"
     schedule:
       interval: "quarterly"
       time: "12:00"
@@ -53,7 +57,8 @@ updates:
       default-days: 7
 
   - package-ecosystem: "docker-compose"
-    directory: "/"
+    directories:
+      - "/**"
     schedule:
       interval: "quarterly"
       time: "12:00"
