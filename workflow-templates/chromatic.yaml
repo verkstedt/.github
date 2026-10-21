@@ -21,9 +21,15 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      only-changed:
+        description: 'Screenshot only changed stories, not all of them (TurboSnap)'
+        type: boolean
+        default: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -33,12 +39,13 @@ jobs:
     secrets: inherit
     with:
       working-directory: .
+      only-changed: ${{ github.event_name != 'workflow_dispatch' || inputs.only-changed }}
 
   notify-main-branch-failure:
     name: Notify about failure on main branch
     needs:
       - chromatic
-    if: ${{ !cancelled() && !contains(needs.*.result, 'cancelled') && ( github.head_ref || github.ref_name ) == 'main' }}
+    if: ${{ github.event_name != 'workflow_dispatch' && !cancelled() && !contains(needs.*.result, 'cancelled') && ( github.head_ref || github.ref_name ) == 'main' }}
     uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
     with:
       status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
