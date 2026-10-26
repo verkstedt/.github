@@ -13,7 +13,8 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "/**"
     schedule:
       interval: "quarterly"
       time: "12:00"
