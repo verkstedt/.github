@@ -42,8 +42,8 @@ jobs:
   # If you need to run additional things, run then _after_ `ci` to make
   # sure we use its cache, e.g.:
   #
-  # lint-something-else:
-  #   name: 'Lint something else'
+  # something-else:
+  #   name: 'Something else'
   #   runs-on: ubuntu-latest
   #   needs:
   #     - ci
@@ -52,16 +52,16 @@ jobs:
   #       uses: verkstedt/actions/setup@v1
   #       with:
   #         working-directory: .
-  #     - name: Lint something else
+  #     - name: Something else
   #       working-directory: .
-  #       run: npm run lint:something-else
+  #       run: npm run test:something-else
+  #
+  # Remember to also add to `notify-main-branch-failure.needs`
 
   notify-main-branch-failure:
     name: Notify about failure on main branch
     needs:
       - ci
-      # If you add any new jobs, also add them here:
-      #- lint-something-else
     if: ${{ !cancelled() && !contains(needs.*.result, 'cancelled') && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     uses: verkstedt/actions/.github/workflows/notify-main-branch-failure.yaml@v1
     with:
