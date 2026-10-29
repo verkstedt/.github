@@ -45,6 +45,17 @@ updates:
     cooldown:
       default-days: 7
 
+  - package-ecosystem: "uv"
+    directories:
+      - "/**"
+    schedule:
+      interval: "quarterly"
+      time: "12:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+
   - package-ecosystem: "docker"
     directories:
       - "/**"
