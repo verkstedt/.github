@@ -1,0 +1,6 @@
+{
+  "name": "Dependabot auto-merge",
+  "description": "Automatically merge Dependabot PRs that update just the patch version. See https://github.com/verkstedt/actions#dependabot-auto-merge",
+  "iconName": "dependabot-auto-merge",
+  "categories": ["Automation"]
+}
