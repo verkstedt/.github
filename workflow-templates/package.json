@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "lint:js": "eslint ."
+  },
   "devDependencies": {
     "@verkstedt/lint": "^11.1.2",
     "eslint": "^10.13.0",
